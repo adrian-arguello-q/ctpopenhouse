@@ -1,0 +1,38 @@
+<h1>CRUD Estudiantes</h1>
+
+<form method="POST" action="/crear">
+  <input name="nombre" placeholder="Nombre" required>
+  <input name="correo" placeholder="Correo" required>
+  <select name="estado">
+    <option value="ACT">Activo</option>
+    <option value="INA">Inactivo</option>
+  </select>
+  <button type="submit">Guardar</button>
+</form>
+
+<hr>
+
+<table border="1" cellpadding="8">
+  <tr>
+    <th>ID</th>
+    <th>Nombre</th>
+    <th>Correo</th>
+    <th>Estado</th>
+    <th>Acciones</th>
+  </tr>
+
+  <% estudiantes.forEach(e => { %>
+    <tr>
+      <td><%= e.id %></td>
+      <td><%= e.nombre %></td>
+      <td><%= e.correo %></td>
+      <td><%= e.estado %></td>
+      <td>
+        <a href="/editar/<%= e.id %>">Editar</a>
+        <form method="POST" action="/eliminar/<%= e.id %>" style="display:inline;">
+          <button type="submit">Eliminar</button>
+        </form>
+      </td>
+    </tr>
+  <% }) %>
+</table>

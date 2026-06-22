@@ -1,0 +1,15 @@
+<h1>Editar estudiante</h1>
+
+<form method="POST" action="/actualizar/<%= estudiante.id %>">
+  <input name="nombre" value="<%= estudiante.nombre %>" required>
+  <input name="correo" value="<%= estudiante.correo %>" required>
+
+  <select name="estado">
+    <option value="ACT" <%= estudiante.estado === "ACT" ? "selected" : "" %>>Activo</option>
+    <option value="INA" <%= estudiante.estado === "INA" ? "selected" : "" %>>Inactivo</option>
+  </select>
+
+  <button type="submit">Actualizar</button>
+</form>
+
+<a href="/">Volver</a>
