@@ -1,84 +1,125 @@
-<h1>Openhouse CTP Calle Blancos</h1>
-<h2>Muchas gracias por visitar nuestro evento</h2>
-<br>
-<h3>Registro de Asistentes</h3>
-<%
-  var error = typeof error !== 'undefined' ? error : null;
-  var form = typeof form !== 'undefined' ? form : {};
-  const pageError = error;
-  const pageForm = form;
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Open House CTP Calle Blancos</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <main class="page">
+    <header class="poster-header">
+      <p class="poster-eyebrow">Open House 25/26 de Junio</p>
+      <h1 class="poster-title">CTP Calle Blancos <span class="poster-highlight">Periodo 2027</span></h1>
+      <p class="poster-subtitle">Gracias por visitar nuestro evento. Complete el registro de asistentes para continuar con el proceso de admision.</p>
+    </header>
 
-  function maskEmail(email) {
-    if (!email) return "****";
-    const parts = String(email).split("@");
-    if (parts.length !== 2) return "****";
-    const [user, domain] = parts;
-    const userMask = user.length > 1 ? user[0] + "*".repeat(user.length - 1) : "*";
-    const domainParts = domain.split(".");
-    const base = domainParts[0] || "";
-    const domainMask = base.length > 1 ? "*".repeat(base.length) : "*";
-    return `${userMask}@${domainMask}${domainParts.length > 1 ? "." + domainParts.slice(1).join(".") : ""}`;
-  }
-%>
+    <section>
+      <h2 class="section-title">Registro de Asistentes</h2>
 
-<form method="POST" action="/crear">
-  <% if (pageError) { %>
-    <p style="color:red;"><%= pageError %></p>
-  <% } %>
-  <input name="nombre" placeholder="Nombre" value="<%= pageForm.nombre ? pageForm.nombre : '' %>" required>
-  <input name="colegio" placeholder="Colegio" value="<%= pageForm.colegio ? pageForm.colegio : '' %>" required>
-  <input type="email" name="correo" placeholder="Correo" value="<%= pageForm.correo ? pageForm.correo : '' %>" required>
-  <select name="especialidad" required>
-    <option value="">Seleccione una especialidad</option>
-    <% especialidades.forEach(especialidad => { %>
-      <option value="<%= especialidad.idespecialidades %>" <%= pageForm.especialidad == especialidad.idespecialidades ? 'selected' : '' %>><%= especialidad.nomespecialidad %></option>
-    <% }) %>
-  </select>
-  <input type="number" name="interes" inputmode="numeric" pattern="[0-9]*" min="0" step="1" placeholder="Interes" value="<%= pageForm.interes ? pageForm.interes : '50' %>" required>
-  <select name="examen">
-    <option value="SI" <%= pageForm.examen === 'SI' ? 'selected' : '' %>>Sí pienso hacer el examen</option>
-    <option value="NO" <%= pageForm.examen === 'NO' ? 'selected' : '' %>>No pienso hacer el examen</option>
-  </select>
-  <select name="estado">
-    <option value="ACT" <%= pageForm.estado === 'ACT' ? 'selected' : '' %>>Activo</option>
-    <option value="INA" <%= pageForm.estado === 'INA' ? 'selected' : '' %>>Inactivo</option>
-  </select>
-  <button type="submit">Guardar</button>
-</form>
+      <%
+        var error = typeof error !== 'undefined' ? error : null;
+        var form = typeof form !== 'undefined' ? form : {};
+        const pageError = error;
+        const pageForm = form;
 
-<hr>
+        function maskEmail(email) {
+          if (!email) return "****";
+          const parts = String(email).split("@");
+          if (parts.length !== 2) return "****";
+          const [user, domain] = parts;
+          const userMask = user.length > 1 ? user[0] + "*".repeat(user.length - 1) : "*";
+          const domainParts = domain.split(".");
+          const base = domainParts[0] || "";
+          const domainMask = base.length > 1 ? "*".repeat(base.length) : "*";
+          return `${userMask}@${domainMask}${domainParts.length > 1 ? "." + domainParts.slice(1).join(".") : ""}`;
+        }
+      %>
 
-<table border="1" cellpadding="8">
-  <tr>
-    <th>ID</th>
-    <th>Nombre</th>
-    <th>Colegio</th>
-    <th>Correo</th>
-    <th>Especialidad</th>
-    <th>Interés</th>
-    <th>Examen</th>
-    <th>Estado</th>
-    <th>Fecha</th>
-    <th>Acciones</th>
-  </tr>
+      <div class="card">
+        <% if (pageError) { %>
+          <p class="alert-error"><%= pageError %></p>
+        <% } %>
 
-  <% estudiantes.forEach(e => { %>
-    <tr>
-      <td><%= e.id %></td>
-      <td><%= e.nombre %></td>
-      <td><%= e.colegio %></td>
-      <td><%= maskEmail(e.correo) %></td>
-      <td><%= e.especialidad_nombre || 'N/A' %></td>
-      <td><%= e.interes %></td>
-      <td><%= e.examen %></td>
-      <td><%= e.estado %></td>
-      <td><%= e.fecha %></td>
-      <td>
-        <a href="/editar/<%= e.id %>">Editar</a>
-        <form method="POST" action="/eliminar/<%= e.id %>" style="display:inline;">
-          <button type="submit">Eliminar</button>
+        <form method="POST" action="/crear" class="form-grid">
+          <div class="field-2"><input name="nombre" placeholder="Nombre" value="<%= pageForm.nombre ? pageForm.nombre : '' %>" required></div>
+          <div class="field-2"><input name="colegio" placeholder="Colegio" value="<%= pageForm.colegio ? pageForm.colegio : '' %>" required></div>
+          <div class="field-3"><input type="email" name="correo" placeholder="Correo" value="<%= pageForm.correo ? pageForm.correo : '' %>" required></div>
+
+          <div class="field-3">
+            <select name="especialidad" required>
+              <option value="">Seleccione una especialidad</option>
+              <% especialidades.forEach(especialidad => { %>
+                <option value="<%= especialidad.idespecialidades %>" <%= pageForm.especialidad == especialidad.idespecialidades ? 'selected' : '' %>><%= especialidad.nomespecialidad %></option>
+              <% }) %>
+            </select>
+          </div>
+
+          <div class="field-2"><input type="number" name="interes" inputmode="numeric" pattern="[0-9]*" min="0" step="1" placeholder="Interes" value="<%= pageForm.interes ? pageForm.interes : '50' %>" required></div>
+
+          <div class="field-3">
+            <select name="examen">
+              <option value="SI" <%= pageForm.examen === 'SI' ? 'selected' : '' %>>Si pienso hacer el examen</option>
+              <option value="NO" <%= pageForm.examen === 'NO' ? 'selected' : '' %>>No pienso hacer el examen</option>
+            </select>
+          </div>
+
+          <div class="field-2">
+            <select name="estado">
+              <option value="ACT" <%= pageForm.estado === 'ACT' ? 'selected' : '' %>>Activo</option>
+              <option value="INA" <%= pageForm.estado === 'INA' ? 'selected' : '' %>>Inactivo</option>
+            </select>
+          </div>
+
+          <div class="field-2 btn-cell"><button type="submit" class="btn-primary">Guardar</button></div>
         </form>
-      </td>
-    </tr>
-  <% }) %>
-</table>
+      </div>
+    </section>
+
+    <section>
+      <h2 class="section-title">Listado de Asistentes</h2>
+      <div class="card table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Nombre</th>
+              <th>Colegio</th>
+              <th>Correo</th>
+              <th>Especialidad</th>
+              <th>Interes</th>
+              <th>Examen</th>
+              <th>Estado</th>
+              <th>Fecha</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% estudiantes.forEach(e => { %>
+              <tr>
+                <td><%= e.id %></td>
+                <td><%= e.nombre %></td>
+                <td><%= e.colegio %></td>
+                <td><%= maskEmail(e.correo) %></td>
+                <td><%= e.especialidad_nombre || 'N/A' %></td>
+                <td><%= e.interes %></td>
+                <td><%= e.examen %></td>
+                <td><%= e.estado %></td>
+                <td><%= e.fecha %></td>
+                <td>
+                  <div class="actions">
+                    <a href="/editar/<%= e.id %>">Editar</a>
+                    <form method="POST" action="/eliminar/<%= e.id %>" class="inline-form">
+                      <button type="submit" class="btn-danger">Eliminar</button>
+                    </form>
+                  </div>
+                </td>
+              </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

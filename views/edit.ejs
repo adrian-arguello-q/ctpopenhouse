@@ -1,37 +1,69 @@
-<h1>Editar estudiante</h1>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Editar Asistente | Open House CTP</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <main class="page">
+    <header class="poster-header">
+      <p class="poster-eyebrow">Open House CTP Calle Blancos</p>
+      <h1 class="poster-title">Editar <span class="poster-highlight">Asistente</span></h1>
+      <p class="poster-subtitle">Actualice la informacion del estudiante y guarde los cambios.</p>
+    </header>
 
-<%
-  const pageError = typeof error !== 'undefined' ? error : null;
-  const pageEstudiante = typeof estudiante !== 'undefined' ? estudiante : {};
-%>
+    <section>
+      <h2 class="section-title">Formulario de Edicion</h2>
 
-<form method="POST" action="/actualizar/<%= pageEstudiante.id %>">
-  <% if (pageError) { %>
-    <p style="color:red;"><%= pageError %></p>
-  <% } %>
-  <input name="nombre" value="<%= pageEstudiante.nombre %>" placeholder="Nombre" required>
-  <input name="colegio" value="<%= pageEstudiante.colegio %>" placeholder="Colegio" required>
-  <input type="email" name="correo" value="<%= pageEstudiante.correo %>" placeholder="Correo" required>
-  <input type="number" name="interes" inputmode="numeric" pattern="[0-9]*" min="0" step="1" placeholder="Interes" value="<%= pageEstudiante.interes %>" required>
+      <%
+        const pageError = typeof error !== 'undefined' ? error : null;
+        const pageEstudiante = typeof estudiante !== 'undefined' ? estudiante : {};
+      %>
 
-  <select name="especialidad" required>
-    <option value="">Seleccione una especialidad</option>
-    <% especialidades.forEach(especialidad => { %>
-      <option value="<%= especialidad.idespecialidades %>" <%= pageEstudiante.especialidad == especialidad.idespecialidades ? "selected" : "" %>><%= especialidad.nomespecialidad %></option>
-    <% }) %>
-  </select>
+      <div class="card">
+        <% if (pageError) { %>
+          <p class="alert-error"><%= pageError %></p>
+        <% } %>
 
-  <select name="examen">
-    <option value="SI" <%= pageEstudiante.examen === "SI" ? "selected" : "" %>>Sí pienso hacer el examen</option>
-    <option value="NO" <%= pageEstudiante.examen === "NO" ? "selected" : "" %>>No pienso hacer el examen</option>
-  </select>
+        <form method="POST" action="/actualizar/<%= pageEstudiante.id %>" class="form-grid">
+          <div class="field-2"><input name="nombre" value="<%= pageEstudiante.nombre %>" placeholder="Nombre" required></div>
+          <div class="field-2"><input name="colegio" value="<%= pageEstudiante.colegio %>" placeholder="Colegio" required></div>
+          <div class="field-3"><input type="email" name="correo" value="<%= pageEstudiante.correo %>" placeholder="Correo" required></div>
+          <div class="field-2"><input type="number" name="interes" inputmode="numeric" pattern="[0-9]*" min="0" step="1" placeholder="Interes" value="<%= pageEstudiante.interes %>" required></div>
 
-  <select name="estado">
-    <option value="ACT" <%= pageEstudiante.estado === "ACT" ? "selected" : "" %>>Activo</option>
-    <option value="INA" <%= pageEstudiante.estado === "INA" ? "selected" : "" %>>Inactivo</option>
-  </select>
+          <div class="field-3">
+            <select name="especialidad" required>
+              <option value="">Seleccione una especialidad</option>
+              <% especialidades.forEach(especialidad => { %>
+                <option value="<%= especialidad.idespecialidades %>" <%= pageEstudiante.especialidad == especialidad.idespecialidades ? "selected" : "" %>><%= especialidad.nomespecialidad %></option>
+              <% }) %>
+            </select>
+          </div>
 
-  <button type="submit">Actualizar</button>
-</form>
+          <div class="field-3">
+            <select name="examen">
+              <option value="SI" <%= pageEstudiante.examen === "SI" ? "selected" : "" %>>Si pienso hacer el examen</option>
+              <option value="NO" <%= pageEstudiante.examen === "NO" ? "selected" : "" %>>No pienso hacer el examen</option>
+            </select>
+          </div>
 
-<a href="/">Volver</a>
+          <div class="field-2">
+            <select name="estado">
+              <option value="ACT" <%= pageEstudiante.estado === "ACT" ? "selected" : "" %>>Activo</option>
+              <option value="INA" <%= pageEstudiante.estado === "INA" ? "selected" : "" %>>Inactivo</option>
+            </select>
+          </div>
+
+          <div class="field-2 btn-cell"><button type="submit" class="btn-primary">Actualizar</button></div>
+        </form>
+      </div>
+
+      <div class="page-tools">
+        <a href="/" class="button-link btn-secondary">Volver al listado</a>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

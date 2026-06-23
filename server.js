@@ -4,6 +4,7 @@ const mysql = require("mysql2/promise");
 const app = express();
 app.set("view engine", "ejs");
 app.use(express.urlencoded({ extended: true }));
+app.use(express.static("public"));
 
 const dbConfig = {
   host: process.env.DB_HOST,
