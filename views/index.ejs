@@ -1,11 +1,42 @@
-<h1>CRUD Estudiantes</h1>
+<h1>Openhouse CTP Calle Blancos</h1>
+<h2>Muchas gracias por visitar nuestro evento</h2>
+<br>
+<h3>Registro de Asistentes</h3>
+<%
+  function maskEmail(email) {
+    if (!email) return "****";
+    const parts = String(email).split("@");
+    if (parts.length !== 2) return "****";
+    const [user, domain] = parts;
+    const userMask = user.length > 1 ? user[0] + "*".repeat(user.length - 1) : "*";
+    const domainParts = domain.split(".");
+    const base = domainParts[0] || "";
+    const domainMask = base.length > 1 ? "*".repeat(base.length) : "*";
+    return `${userMask}@${domainMask}${domainParts.length > 1 ? "." + domainParts.slice(1).join(".") : ""}`;
+  }
+%>
 
 <form method="POST" action="/crear">
-  <input name="nombre" placeholder="Nombre" required>
-  <input name="correo" placeholder="Correo" required>
+  <% if (error) { %>
+    <p style="color:red;"><%= error %></p>
+  <% } %>
+  <input name="nombre" placeholder="Nombre" value="<%= form && form.nombre ? form.nombre : '' %>" required>
+  <input name="colegio" placeholder="Colegio" value="<%= form && form.colegio ? form.colegio : '' %>" required>
+  <input type="email" name="correo" placeholder="Correo" value="<%= form && form.correo ? form.correo : '' %>" required>
+  <select name="especialidad" required>
+    <option value="">Seleccione una especialidad</option>
+    <% especialidades.forEach(especialidad => { %>
+      <option value="<%= especialidad.idespecialidades %>" <%= form && form.especialidad == especialidad.idespecialidades ? 'selected' : '' %>><%= especialidad.nomespecialidad %></option>
+    <% }) %>
+  </select>
+  <input type="number" name="interes" inputmode="numeric" pattern="[0-9]*" min="0" step="1" placeholder="Interes" value="<%= form && form.interes ? form.interes : '50' %>" required>
+  <select name="examen">
+    <option value="SI" <%= form && form.examen === 'SI' ? 'selected' : '' %>>Sí pienso hacer el examen</option>
+    <option value="NO" <%= form && form.examen === 'NO' ? 'selected' : '' %>>No pienso hacer el examen</option>
+  </select>
   <select name="estado">
-    <option value="ACT">Activo</option>
-    <option value="INA">Inactivo</option>
+    <option value="ACT" <%= form && form.estado === 'ACT' ? 'selected' : '' %>>Activo</option>
+    <option value="INA" <%= form && form.estado === 'INA' ? 'selected' : '' %>>Inactivo</option>
   </select>
   <button type="submit">Guardar</button>
 </form>
@@ -16,8 +47,13 @@
   <tr>
     <th>ID</th>
     <th>Nombre</th>
+    <th>Colegio</th>
     <th>Correo</th>
+    <th>Especialidad</th>
+    <th>Interés</th>
+    <th>Examen</th>
     <th>Estado</th>
+    <th>Fecha</th>
     <th>Acciones</th>
   </tr>
 
@@ -25,8 +61,13 @@
     <tr>
       <td><%= e.id %></td>
       <td><%= e.nombre %></td>
-      <td><%= e.correo %></td>
+      <td><%= e.colegio %></td>
+      <td><%= maskEmail(e.correo) %></td>
+      <td><%= e.especialidad_nombre || 'N/A' %></td>
+      <td><%= e.interes %></td>
+      <td><%= e.examen %></td>
       <td><%= e.estado %></td>
+      <td><%= e.fecha %></td>
       <td>
         <a href="/editar/<%= e.id %>">Editar</a>
         <form method="POST" action="/eliminar/<%= e.id %>" style="display:inline;">

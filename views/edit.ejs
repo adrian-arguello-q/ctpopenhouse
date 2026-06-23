@@ -1,8 +1,25 @@
 <h1>Editar estudiante</h1>
 
 <form method="POST" action="/actualizar/<%= estudiante.id %>">
-  <input name="nombre" value="<%= estudiante.nombre %>" required>
-  <input name="correo" value="<%= estudiante.correo %>" required>
+  <% if (error) { %>
+    <p style="color:red;"><%= error %></p>
+  <% } %>
+  <input name="nombre" value="<%= estudiante.nombre %>" placeholder="Nombre" required>
+  <input name="colegio" value="<%= estudiante.colegio %>" placeholder="Colegio" required>
+  <input type="email" name="correo" value="<%= estudiante.correo %>" placeholder="Correo" required>
+  <input type="number" name="interes" inputmode="numeric" pattern="[0-9]*" min="0" step="1" placeholder="Interes" value="<%= estudiante.interes %>" required>
+
+  <select name="especialidad" required>
+    <option value="">Seleccione una especialidad</option>
+    <% especialidades.forEach(especialidad => { %>
+      <option value="<%= especialidad.idespecialidades %>" <%= estudiante.especialidad == especialidad.idespecialidades ? "selected" : "" %>><%= especialidad.nomespecialidad %></option>
+    <% }) %>
+  </select>
+
+  <select name="examen">
+    <option value="SI" <%= estudiante.examen === "SI" ? "selected" : "" %>>Sí pienso hacer el examen</option>
+    <option value="NO" <%= estudiante.examen === "NO" ? "selected" : "" %>>No pienso hacer el examen</option>
+  </select>
 
   <select name="estado">
     <option value="ACT" <%= estudiante.estado === "ACT" ? "selected" : "" %>>Activo</option>
