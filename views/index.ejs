@@ -38,8 +38,8 @@
     <option value="NO" <%= pageForm.examen === 'NO' ? 'selected' : '' %>>No pienso hacer el examen</option>
   </select>
   <select name="estado">
-    <option value="ACT" <%= form && form.estado === 'ACT' ? 'selected' : '' %>>Activo</option>
-    <option value="INA" <%= form && form.estado === 'INA' ? 'selected' : '' %>>Inactivo</option>
+    <option value="ACT" <%= pageForm.estado === 'ACT' ? 'selected' : '' %>>Activo</option>
+    <option value="INA" <%= pageForm.estado === 'INA' ? 'selected' : '' %>>Inactivo</option>
   </select>
   <button type="submit">Guardar</button>
 </form>

@@ -10,25 +10,25 @@
     <p style="color:red;"><%= pageError %></p>
   <% } %>
   <input name="nombre" value="<%= pageEstudiante.nombre %>" placeholder="Nombre" required>
-  <input name="colegio" value="<%= estudiante.colegio %>" placeholder="Colegio" required>
-  <input type="email" name="correo" value="<%= estudiante.correo %>" placeholder="Correo" required>
-  <input type="number" name="interes" inputmode="numeric" pattern="[0-9]*" min="0" step="1" placeholder="Interes" value="<%= estudiante.interes %>" required>
+  <input name="colegio" value="<%= pageEstudiante.colegio %>" placeholder="Colegio" required>
+  <input type="email" name="correo" value="<%= pageEstudiante.correo %>" placeholder="Correo" required>
+  <input type="number" name="interes" inputmode="numeric" pattern="[0-9]*" min="0" step="1" placeholder="Interes" value="<%= pageEstudiante.interes %>" required>
 
   <select name="especialidad" required>
     <option value="">Seleccione una especialidad</option>
     <% especialidades.forEach(especialidad => { %>
-      <option value="<%= especialidad.idespecialidades %>" <%= estudiante.especialidad == especialidad.idespecialidades ? "selected" : "" %>><%= especialidad.nomespecialidad %></option>
+      <option value="<%= especialidad.idespecialidades %>" <%= pageEstudiante.especialidad == especialidad.idespecialidades ? "selected" : "" %>><%= especialidad.nomespecialidad %></option>
     <% }) %>
   </select>
 
   <select name="examen">
-    <option value="SI" <%= estudiante.examen === "SI" ? "selected" : "" %>>Sí pienso hacer el examen</option>
-    <option value="NO" <%= estudiante.examen === "NO" ? "selected" : "" %>>No pienso hacer el examen</option>
+    <option value="SI" <%= pageEstudiante.examen === "SI" ? "selected" : "" %>>Sí pienso hacer el examen</option>
+    <option value="NO" <%= pageEstudiante.examen === "NO" ? "selected" : "" %>>No pienso hacer el examen</option>
   </select>
 
   <select name="estado">
-    <option value="ACT" <%= estudiante.estado === "ACT" ? "selected" : "" %>>Activo</option>
-    <option value="INA" <%= estudiante.estado === "INA" ? "selected" : "" %>>Inactivo</option>
+    <option value="ACT" <%= pageEstudiante.estado === "ACT" ? "selected" : "" %>>Activo</option>
+    <option value="INA" <%= pageEstudiante.estado === "INA" ? "selected" : "" %>>Inactivo</option>
   </select>
 
   <button type="submit">Actualizar</button>
