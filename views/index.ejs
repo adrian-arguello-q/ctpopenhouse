@@ -3,8 +3,10 @@
 <br>
 <h3>Registro de Asistentes</h3>
 <%
-  const pageError = typeof error !== 'undefined' ? error : null;
-  const pageForm = typeof form !== 'undefined' ? form : {};
+  var error = typeof error !== 'undefined' ? error : null;
+  var form = typeof form !== 'undefined' ? form : {};
+  const pageError = error;
+  const pageForm = form;
 
   function maskEmail(email) {
     if (!email) return "****";

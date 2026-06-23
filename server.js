@@ -39,51 +39,61 @@ app.post("/crear", async (req, res) => {
   const form = { nombre, colegio, correo, interes, examen, estado, especialidad };
 
   const renderWithError = async (message) => {
-    const conn = await getConnection();
-    const [rows] = await conn.execute("SELECT * FROM estudiantes ORDER BY id DESC");
-    const [especialidades] = await conn.execute(
-      "SELECT idespecialidades, nomespecialidad FROM especialidades"
-    );
-    await conn.end();
-    res.render("index", { estudiantes: rows, especialidades, error: message, form });
+    try {
+      const conn = await getConnection();
+      const [rows] = await conn.execute("SELECT * FROM estudiantes ORDER BY id DESC");
+      const [especialidades] = await conn.execute(
+        "SELECT idespecialidades, nomespecialidad FROM especialidades"
+      );
+      await conn.end();
+      res.render("index", { estudiantes: rows, especialidades, error: message, form });
+    } catch (renderError) {
+      console.error("Error renderizando formulario de creación:", renderError);
+      res.status(500).send("Ocurrió un error interno al mostrar el formulario.");
+    }
   };
 
-  if (!nombre || !nombre.trim()) {
-    return await renderWithError("Nombre es obligatorio.");
-  }
+  try {
+    if (!nombre || !nombre.trim()) {
+      return await renderWithError("Nombre es obligatorio.");
+    }
 
-  if (!colegio || !colegio.trim()) {
-    return await renderWithError("Colegio es obligatorio.");
-  }
+    if (!colegio || !colegio.trim()) {
+      return await renderWithError("Colegio es obligatorio.");
+    }
 
-  if (!correo || !emailPattern.test(correo)) {
-    return await renderWithError("Correo inválido.");
-  }
+    if (!correo || !emailPattern.test(correo)) {
+      return await renderWithError("Correo inválido.");
+    }
 
-  if (!/^[0-9]+$/.test(interes)) {
-    return await renderWithError("Interes debe ser un número entero.");
-  }
+    if (!/^[0-9]+$/.test(interes)) {
+      return await renderWithError("Interes debe ser un número entero.");
+    }
 
-  if (!allowedExamen.includes(examen)) {
-    return await renderWithError("Opción de examen inválida.");
-  }
+    if (!allowedExamen.includes(examen)) {
+      return await renderWithError("Opción de examen inválida.");
+    }
 
-  if (!allowedEstado.includes(estado)) {
-    return await renderWithError("Estado inválido.");
-  }
+    if (!allowedEstado.includes(estado)) {
+      return await renderWithError("Estado inválido.");
+    }
 
-  if (!/^[0-9]+$/.test(especialidad)) {
-    return await renderWithError("Especialidad inválida.");
-  }
+    if (!/^[0-9]+$/.test(especialidad)) {
+      return await renderWithError("Especialidad inválida.");
+    }
 
-  const fecha = new Date();
-  const conn = await getConnection();
-  await conn.execute(
-    "INSERT INTO estudiantes (nombre, colegio, correo, interes, examen, estado, especialidad, fecha) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
-    [nombre.trim(), colegio.trim(), correo.trim(), interes, examen, estado, especialidad, fecha]
-  );
-  await conn.end();
-  res.redirect("/");
+    const fecha = new Date();
+    const conn = await getConnection();
+    await conn.execute(
+      "INSERT INTO estudiantes (nombre, colegio, correo, interes, examen, estado, especialidad, fecha) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+      [nombre.trim(), colegio.trim(), correo.trim(), interes, examen, estado, especialidad, fecha]
+    );
+    await conn.end();
+    res.redirect("/");
+  } catch (error) {
+    console.error("Error en POST /crear:", error);
+    return await renderWithError("Ocurrió un problema al guardar el registro. Intenta de nuevo.");
+  }
 });
 
 app.get("/editar/:id", async (req, res) => {
@@ -105,49 +115,59 @@ app.post("/actualizar/:id", async (req, res) => {
   const estudiante = { id: req.params.id, nombre, colegio, correo, interes, examen, estado, especialidad };
 
   const renderWithError = async (message) => {
-    const conn = await getConnection();
-    const [especialidades] = await conn.execute(
-      "SELECT idespecialidades, nomespecialidad FROM especialidades"
-    );
-    await conn.end();
-    res.render("edit", { estudiante, especialidades, error: message });
+    try {
+      const conn = await getConnection();
+      const [especialidades] = await conn.execute(
+        "SELECT idespecialidades, nomespecialidad FROM especialidades"
+      );
+      await conn.end();
+      res.render("edit", { estudiante, especialidades, error: message });
+    } catch (renderError) {
+      console.error("Error renderizando formulario de edición:", renderError);
+      res.status(500).send("Ocurrió un error interno al mostrar el formulario.");
+    }
   };
 
-  if (!nombre || !nombre.trim()) {
-    return await renderWithError("Nombre es obligatorio.");
-  }
+  try {
+    if (!nombre || !nombre.trim()) {
+      return await renderWithError("Nombre es obligatorio.");
+    }
 
-  if (!colegio || !colegio.trim()) {
-    return await renderWithError("Colegio es obligatorio.");
-  }
+    if (!colegio || !colegio.trim()) {
+      return await renderWithError("Colegio es obligatorio.");
+    }
 
-  if (!correo || !emailPattern.test(correo)) {
-    return await renderWithError("Correo inválido.");
-  }
+    if (!correo || !emailPattern.test(correo)) {
+      return await renderWithError("Correo inválido.");
+    }
 
-  if (!/^[0-9]+$/.test(interes)) {
-    return await renderWithError("Interes debe ser un número entero.");
-  }
+    if (!/^[0-9]+$/.test(interes)) {
+      return await renderWithError("Interes debe ser un número entero.");
+    }
 
-  if (!allowedExamen.includes(examen)) {
-    return await renderWithError("Opción de examen inválida.");
-  }
+    if (!allowedExamen.includes(examen)) {
+      return await renderWithError("Opción de examen inválida.");
+    }
 
-  if (!allowedEstado.includes(estado)) {
-    return await renderWithError("Estado inválido.");
-  }
+    if (!allowedEstado.includes(estado)) {
+      return await renderWithError("Estado inválido.");
+    }
 
-  if (!/^[0-9]+$/.test(especialidad)) {
-    return await renderWithError("Especialidad inválida.");
-  }
+    if (!/^[0-9]+$/.test(especialidad)) {
+      return await renderWithError("Especialidad inválida.");
+    }
 
-  const conn = await getConnection();
-  await conn.execute(
-    "UPDATE estudiantes SET nombre = ?, colegio = ?, correo = ?, interes = ?, examen = ?, estado = ?, especialidad = ? WHERE id = ?",
-    [nombre.trim(), colegio.trim(), correo.trim(), interes, examen, estado, especialidad, req.params.id]
-  );
-  await conn.end();
-  res.redirect("/");
+    const conn = await getConnection();
+    await conn.execute(
+      "UPDATE estudiantes SET nombre = ?, colegio = ?, correo = ?, interes = ?, examen = ?, estado = ?, especialidad = ? WHERE id = ?",
+      [nombre.trim(), colegio.trim(), correo.trim(), interes, examen, estado, especialidad, req.params.id]
+    );
+    await conn.end();
+    res.redirect("/");
+  } catch (error) {
+    console.error("Error en POST /actualizar/", req.params.id, error);
+    return await renderWithError("Ocurrió un problema al actualizar el registro. Intenta de nuevo.");
+  }
 });
 
 app.post("/eliminar/:id", async (req, res) => {
@@ -155,6 +175,11 @@ app.post("/eliminar/:id", async (req, res) => {
   await conn.execute("DELETE FROM estudiantes WHERE id = ?", [req.params.id]);
   await conn.end();
   res.redirect("/");
+});
+
+app.use((err, req, res, next) => {
+  console.error("Unhandled server error:", err);
+  res.status(500).send("Ocurrió un error interno en el servidor.");
 });
 
 const port = process.env.PORT || 3000;
