@@ -28,7 +28,7 @@
   <input name="nombre" placeholder="Nombre" value="<%= pageForm.nombre ? pageForm.nombre : '' %>" required>
   <input name="colegio" placeholder="Colegio" value="<%= pageForm.colegio ? pageForm.colegio : '' %>" required>
   <input type="email" name="correo" placeholder="Correo" value="<%= pageForm.correo ? pageForm.correo : '' %>" required>
-  <select name="especialidad" required>
+  <select name="especialidad">
     <option value="">Seleccione una especialidad</option>
     <% especialidades.forEach(especialidad => { %>
       <option value="<%= especialidad.idespecialidades %>" <%= pageForm.especialidad == especialidad.idespecialidades ? 'selected' : '' %>><%= especialidad.nomespecialidad %></option>
