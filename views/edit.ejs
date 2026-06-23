@@ -1,10 +1,15 @@
 <h1>Editar estudiante</h1>
 
-<form method="POST" action="/actualizar/<%= estudiante.id %>">
-  <% if (error) { %>
-    <p style="color:red;"><%= error %></p>
+<%
+  const pageError = typeof error !== 'undefined' ? error : null;
+  const pageEstudiante = typeof estudiante !== 'undefined' ? estudiante : {};
+%>
+
+<form method="POST" action="/actualizar/<%= pageEstudiante.id %>">
+  <% if (pageError) { %>
+    <p style="color:red;"><%= pageError %></p>
   <% } %>
-  <input name="nombre" value="<%= estudiante.nombre %>" placeholder="Nombre" required>
+  <input name="nombre" value="<%= pageEstudiante.nombre %>" placeholder="Nombre" required>
   <input name="colegio" value="<%= estudiante.colegio %>" placeholder="Colegio" required>
   <input type="email" name="correo" value="<%= estudiante.correo %>" placeholder="Correo" required>
   <input type="number" name="interes" inputmode="numeric" pattern="[0-9]*" min="0" step="1" placeholder="Interes" value="<%= estudiante.interes %>" required>

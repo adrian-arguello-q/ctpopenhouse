@@ -3,6 +3,9 @@
 <br>
 <h3>Registro de Asistentes</h3>
 <%
+  const pageError = typeof error !== 'undefined' ? error : null;
+  const pageForm = typeof form !== 'undefined' ? form : {};
+
   function maskEmail(email) {
     if (!email) return "****";
     const parts = String(email).split("@");
@@ -17,22 +20,22 @@
 %>
 
 <form method="POST" action="/crear">
-  <% if (error) { %>
-    <p style="color:red;"><%= error %></p>
+  <% if (pageError) { %>
+    <p style="color:red;"><%= pageError %></p>
   <% } %>
-  <input name="nombre" placeholder="Nombre" value="<%= form && form.nombre ? form.nombre : '' %>" required>
-  <input name="colegio" placeholder="Colegio" value="<%= form && form.colegio ? form.colegio : '' %>" required>
-  <input type="email" name="correo" placeholder="Correo" value="<%= form && form.correo ? form.correo : '' %>" required>
+  <input name="nombre" placeholder="Nombre" value="<%= pageForm.nombre ? pageForm.nombre : '' %>" required>
+  <input name="colegio" placeholder="Colegio" value="<%= pageForm.colegio ? pageForm.colegio : '' %>" required>
+  <input type="email" name="correo" placeholder="Correo" value="<%= pageForm.correo ? pageForm.correo : '' %>" required>
   <select name="especialidad" required>
     <option value="">Seleccione una especialidad</option>
     <% especialidades.forEach(especialidad => { %>
-      <option value="<%= especialidad.idespecialidades %>" <%= form && form.especialidad == especialidad.idespecialidades ? 'selected' : '' %>><%= especialidad.nomespecialidad %></option>
+      <option value="<%= especialidad.idespecialidades %>" <%= pageForm.especialidad == especialidad.idespecialidades ? 'selected' : '' %>><%= especialidad.nomespecialidad %></option>
     <% }) %>
   </select>
-  <input type="number" name="interes" inputmode="numeric" pattern="[0-9]*" min="0" step="1" placeholder="Interes" value="<%= form && form.interes ? form.interes : '50' %>" required>
+  <input type="number" name="interes" inputmode="numeric" pattern="[0-9]*" min="0" step="1" placeholder="Interes" value="<%= pageForm.interes ? pageForm.interes : '50' %>" required>
   <select name="examen">
-    <option value="SI" <%= form && form.examen === 'SI' ? 'selected' : '' %>>Sí pienso hacer el examen</option>
-    <option value="NO" <%= form && form.examen === 'NO' ? 'selected' : '' %>>No pienso hacer el examen</option>
+    <option value="SI" <%= pageForm.examen === 'SI' ? 'selected' : '' %>>Sí pienso hacer el examen</option>
+    <option value="NO" <%= pageForm.examen === 'NO' ? 'selected' : '' %>>No pienso hacer el examen</option>
   </select>
   <select name="estado">
     <option value="ACT" <%= form && form.estado === 'ACT' ? 'selected' : '' %>>Activo</option>
