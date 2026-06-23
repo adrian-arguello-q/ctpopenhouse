@@ -106,14 +106,6 @@
                 <td><%= e.examen %></td>
                 <td><%= e.estado %></td>
                 <td><%= e.fecha %></td>
-                <td>
-                  <div class="actions">
-                    <a href="/editar/<%= e.id %>">Editar</a>
-                    <form method="POST" action="/eliminar/<%= e.id %>" class="inline-form">
-                      <button type="submit" class="btn-danger">Eliminar</button>
-                    </form>
-                  </div>
-                </td>
               </tr>
             <% }) %>
           </tbody>
