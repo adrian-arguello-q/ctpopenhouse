@@ -22,7 +22,7 @@ async function getConnection() {
 app.get("/", async (req, res) => {
   const conn = await getConnection();
   const [rows] = await conn.execute(
-    "SELECT e.*, es.nomespecialidad AS especialidad_nombre FROM estudiantes e LEFT JOIN especialidades es ON e.especialidad = es.idespecialidades ORDER BY e.id DESC"
+    "SELECT e.*, es.nomespecialidad AS especialidad_nombre FROM estudiantes e LEFT JOIN especialidades es ON e.especialidad = es.idespecialidades ORDER BY e.nomespecialidad DESC"
   );
   const [especialidades] = await conn.execute(
     "SELECT idespecialidades, nomespecialidad FROM especialidades"
