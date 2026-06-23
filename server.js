@@ -27,7 +27,7 @@ app.get("/", async (req, res) => {
     "SELECT idespecialidades, nomespecialidad FROM especialidades"
   );
   await conn.end();
-  res.render("index", { estudiantes: rows, especialidades });
+  res.render("index", { estudiantes: rows, especialidades, error: null, form: {} });
 });
 
 app.post("/crear", async (req, res) => {
