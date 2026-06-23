@@ -86,7 +86,7 @@ app.post("/crear", async (req, res) => {
     const conn = await getConnection();
     await conn.execute(
       "INSERT INTO estudiantes (nombre, colegio, correo, interes, examen, estado, especialidad, fecha) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
-      [nombre.trim(), colegio.trim(), correo.trim(), 50, 'SI', estado, 2, fecha]
+      [nombre.trim(), colegio.trim(), correo.trim(), interes, examen, estado, especialidad, fecha]
     );
     await conn.end();
     res.redirect("/");
