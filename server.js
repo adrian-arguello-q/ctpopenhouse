@@ -93,7 +93,7 @@ app.get("/editar/:id", async (req, res) => {
     "SELECT idespecialidades, nomespecialidad FROM especialidades"
   );
   await conn.end();
-  res.render("edit", { estudiante: rows[0], especialidades });
+  res.render("edit", { estudiante: rows[0], especialidades, error: null });
 });
 
 app.post("/actualizar/:id", async (req, res) => {
