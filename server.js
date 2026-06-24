@@ -75,10 +75,7 @@ app.post("/crear", async (req, res) => {
       return await renderWithError("Opción de examen inválida.");
     }
 
-    if (!allowedEstado.includes(estado)) {
-      return await renderWithError("Estado inválido.");
-    }
-
+ 
     if (!/^[0-9]+$/.test(especialidad)) {
       return await renderWithError("Especialidad inválida.");
     }
@@ -87,7 +84,7 @@ app.post("/crear", async (req, res) => {
     const conn = await getConnection();
     await conn.execute(
       "INSERT INTO estudiantes (nombre, colegio, correo, interes, examen, estado, especialidad, fecha) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
-      [nombre.trim(), colegio.trim(), correo.trim(), interes, examen, estado, especialidad, fecha]
+      [nombre.trim(), colegio.trim(), correo.trim(), interes, examen, 'ACT', especialidad, fecha]
     );
     await conn.end();
     res.redirect("/");
@@ -161,7 +158,7 @@ app.post("/actualizar/:id", async (req, res) => {
     const conn = await getConnection();
     await conn.execute(
       "UPDATE estudiantes SET nombre = ?, colegio = ?, correo = ?, interes = ?, examen = ?, estado = ?, especialidad = ? WHERE id = ?",
-      [nombre.trim(), colegio.trim(), correo.trim(), interes, examen, estado, especialidad, req.params.id]
+      [nombre.trim(), colegio.trim(), correo.trim(), interes, examen, 'ACT', especialidad, req.params.id]
     );
     await conn.end();
     res.redirect("/");

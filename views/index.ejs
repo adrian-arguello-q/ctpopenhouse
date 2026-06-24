@@ -55,19 +55,12 @@
             </select>
           </div>
 
-          <div class="field-2"><input type="number" name="interes" inputmode="numeric" pattern="[0-9]*" min="0" step="1" placeholder="Interes" value="<%= pageForm.interes ? pageForm.interes : '' %>" required></div>
+          <div class="field-2"><input type="number" name="interes" inputmode="numeric" pattern="[0-9]*" min="0" step="1" placeholder="Interes" value="<%= pageForm.interes ? pageForm.interes : '0' %>" required></div>
 
           <div class="field-3">
             <select name="examen">
               <option value="SI" <%= pageForm.examen === 'SI' ? 'selected' : '' %>>Si pienso hacer el examen</option>
               <option value="NO" <%= pageForm.examen === 'NO' ? 'selected' : '' %>>No pienso hacer el examen</option>
-            </select>
-          </div>
-
-          <div class="field-2">
-            <select name="estado">
-              <option value="ACT" <%= pageForm.estado === 'ACT' ? 'selected' : '' %>>Activo</option>
-              <option value="INA" <%= pageForm.estado === 'INA' ? 'selected' : '' %>>Inactivo</option>
             </select>
           </div>
 
@@ -89,9 +82,7 @@
               <th>Especialidad</th>
               <th>Interes</th>
               <th>Examen</th>
-              <th>Estado</th>
               <th>Fecha</th>
-              <th>Acciones</th>
             </tr>
           </thead>
           <tbody>
@@ -104,16 +95,7 @@
                 <td><%= e.especialidad_nombre || 'N/A' %></td>
                 <td><%= e.interes %></td>
                 <td><%= e.examen %></td>
-                <td><%= e.estado %></td>
                 <td><%= e.fecha %></td>
-                <td>
-                  <div class="actions">
-                    <a href="/editar/<%= e.id %>">Editar</a>
-                    <form method="POST" action="/eliminar/<%= e.id %>" class="inline-form">
-                      <button type="submit" class="btn-danger">Eliminar</button>
-                    </form>
-                  </div>
-                </td>
               </tr>
             <% }) %>
           </tbody>
