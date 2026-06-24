@@ -25,7 +25,7 @@ app.get("/", async (req, res) => {
     "SELECT e.*, es.nomespecialidad AS especialidad_nombre FROM estudiantes e LEFT JOIN especialidades es ON e.especialidad = es.idespecialidades ORDER BY e.id DESC"
   );
   const [especialidades] = await conn.execute(
-    "SELECT idespecialidades, nomespecialidad FROM especialidades"
+    "SELECT idespecialidades, nomespecialidad FROM especialidades ORDER BY nomespecialidad"
   );
   await conn.end();
   res.render("index", { estudiantes: rows, especialidades, error: null, form: {} });
